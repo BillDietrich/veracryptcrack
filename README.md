@@ -1,22 +1,18 @@
 # veracryptcrack
 
-Simple veracrypt container cracker using wordlist
+Simple slow VeraCrypt container cracker using wordlist/dictionary.  Linux-only.
 
-All configuration is done from veracrypt_crack.sh
+You don't need to know the encryption algorithm settings of the VeraCrypt volume to decrypt it.
 
-Install 'timeout' package before running
+When password is cracked - container will be mounted.
 
-When password is cracked - container will be mounted
+To check everything works correctly before spending more time, run script against veracrypt test.container, it shouldn't take more than 1 minute (because the third line in the wordlist is the correct password).
 
-Give your user permissions to mount or run as root
+May be useful if you forget PIM, which keyfile you used, or mixed up a few characters in a password.
 
-To check everything works correctly before spending more time, run script against veracrypt test.container, it shouldn't take more than 1 minute
+When done, use 'wipe' or 'srm' to securely overwrite your wordlist.
 
-Often useful when you forget PIM, which keyfile you used, or mixed up a few characters in a password
-
-When done, use 'wipe' or 'srm' to securely overwrite your wordlist
-
-Good luck recovering
+Good luck recovering.
 
 
 ## Notes by Bill Dietrich
@@ -36,9 +32,9 @@ Found it from https://pay.reddit.com/r/VeraCrypt/comments/fatkq2/forgot_my_passw
 ### Run via:
 
 ```shell
-chmod a+x veracrypt_crack.sh
+chmod u+x veracrypt_crack.sh
 
-# Make sure you have software installed:
+# Make sure you have necessary software installed:
 timeout --version
 veracrypt --text --version
 
@@ -55,7 +51,7 @@ sudo ./veracrypt_crack.sh
 # and encryption is "AES-Twofish-Serpent".
 ```
 
-### Improvements
+### Improvements made
 
 * Check return code from VeraCrypt, stop when succeed.
 * Made output clearer.
@@ -64,23 +60,12 @@ sudo ./veracrypt_crack.sh
 
 #### Notes
 
+```shell
 veracrypt --text --help
+
 veracrypt --text test.container /media/veracrypt7
-returns 0 if successfully mounts, 1 if already mounted, 124 if password wrong
-
-hashcat --help | grep -i "FDE" | grep -e X -e Y
-hashcat --quiet --force --status --hash-type=13722 --veracrypt-pim=1337 --attack-mode=0 --workload-profile=2 test.container wordlist.txt
-hashcat --hash-type=13722 --veracrypt-pim=1337 --show -o "pass.txt" test.container
-
-test1.container: Serpent SHA512  123456789
-hashcat --quiet --force --status --hash-type=13721 --attack-mode=0 --workload-profile=2 test1.container wordlist.txt
-hashcat --hash-type=13721 --show -o "pass.txt" test1.container
-
-https://gist.github.com/GabMus/4b6f7167730a4a274cdee19696783e72
-https://pastebin.com/R8stQCCy
-
-
-## Misc
+# returns 0 if successfully mounts, 1 if already mounted, 124 if password wrong
+```
 
 Relevant: https://github.com/NorthernSec/VeraCracker
 
