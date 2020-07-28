@@ -69,7 +69,7 @@ while read line; do
 		if [ $keyfilesupport -eq "1" ]; then
 			echo "-----------------------------------"
 			echo "PIM: none     Password: $line     Keyfile: $keylocation"
-			timeout $timeout --veracrypt -t `if [ $truecryptsupport -eq "1" ]; then echo " --truecrypt "; fi` --non-interactive --keyfiles="$keylocation" --mount $container
+			timeout $timeout veracrypt -t `if [ $truecryptsupport -eq "1" ]; then echo " --truecrypt "; fi` --non-interactive --keyfiles="$keylocation" --password="$line" --mount $container
 			if [ "$?" -lt "2" ]; then
 				echo "Worked !  Done !"
 				exit
