@@ -60,6 +60,8 @@ sudo ./veracrypt_crack.sh
 
 #### Notes
 
+5/2021 I'm told that the code doesn't work properly on a TrueCrypt container.  The return codes from VeraCrypt must differ for VeraCrypt and True Crypt containers ?  Comment out the return-code-checking to use with trueCrypt containers, maybe.
+
 ```shell
 veracrypt --text --help
 
